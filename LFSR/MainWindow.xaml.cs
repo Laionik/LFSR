@@ -25,13 +25,11 @@ namespace LFSR
         private static BackgroundWorker _bw;
         private delegate void GetTextDelegate(string txt);
         private int registry_lenght;
-        private Regex _regexp;
         public MainWindow()
         {
             InitializeComponent();
             CB_options.ItemsSource = File.ReadAllLines("generatory.txt");
-            IMG_help.ToolTip = "1. Select option from dropdown list\n2. Enter your registry data (or use generated one)\n3. Press button Start";
-            _regexp = new Regex("^[0-1]+$");
+            IMG_help.ToolTip = "1. Select option from dropdown list\n2. Enter number of repeats\n3. Enter your registry data (or use generated one)\n4. Press button Start";
         }
 
         /*Obsługa zdarzeń w oknie
@@ -41,9 +39,10 @@ namespace LFSR
         {
             BT_do.IsEnabled = true;
             TB_input.IsEnabled = true;
-            string[] values = GetText();
-            registry_lenght = int.Parse(values[0]) * 8;
-            test_input(registry_lenght);
+            string[] values = GetValues();
+            registry_lenght = int.Parse(values[0]) + 1;
+            TB_output.Text = "";
+            input_example(registry_lenght);
         }
 
 
@@ -51,8 +50,10 @@ namespace LFSR
         private void TB_input_TextChanged(object sender, TextChangedEventArgs e)
         {
             BT_do.IsEnabled = false;
+            TB_output.Text = "";
             string entered = TB_input.Text;
-            if (_regexp.IsMatch(entered) || entered == "")
+            Regex _regexp_registry = new Regex("^[0-1]+$");
+            if (_regexp_registry.IsMatch(entered) || entered == "")
             {
                 LBL_input.Content = "Input. You have entered " + entered.Length + " bytes";
                 if (registry_lenght == entered.Length)
@@ -64,7 +65,18 @@ namespace LFSR
             {
                 TB_input.Text = entered.Remove(entered.Length - 1);
                 MessageBox.Show("You can entering only 0 and 1 here");
-                }
+            }
+        }
+
+        private void TB_amount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Regex _regexp_amount = new Regex("^[0-9]+$");
+            string entered = TB_amount.Text;
+            if (!_regexp_amount.IsMatch(entered))
+            {
+                TB_amount.Text = entered.Remove(entered.Length - 1);
+                MessageBox.Show("You can entering only numerics here");
+            }
         }
 
         /*wciśnięcie klawisza */
@@ -80,11 +92,10 @@ namespace LFSR
             _bw.DoWork += bw_DoWork;
 
             _bw.RunWorkerAsync();
-
         }
 
-        /*pobieranie wartiści z dopa*/
-        public string[] GetText()
+        /*pobieranie wartiści z dropa*/
+        public string[] GetValues()
         {
             string from_cb = "";
             CB_options.Dispatcher.Invoke(new Action(() =>
@@ -95,8 +106,19 @@ namespace LFSR
             return values;
         }
 
-        /*metoda testowa*/
-        private void test_input(int registry_lenght)
+        /*pobieranie wartiści amount*/
+        public int GetAmount()
+        {
+            int amount = 0;
+            CB_options.Dispatcher.Invoke(new Action(() =>
+            {
+                amount = int.Parse(TB_amount.Text);
+            }));
+            return amount;
+        }
+
+        /*metoda wstawiająca przykładową wartość w input*/
+        private void input_example(int registry_lenght)
         {
             string registry_value = "";
             Random rnd = new Random();
@@ -105,37 +127,30 @@ namespace LFSR
                 registry_value += rnd.Next(2).ToString();
             }
             TB_input.Text = registry_value;
-            LBL_input.Content = "Input. You have entered " + registry_lenght.ToString() + " bytes)";
+            LBL_input.Content = "Input. You have entered " + registry_lenght.ToString() + " bytes";
         }
 
-        /*xorowanie bajtu*/
-        private char xor(char a, char b)
-        {
-            if (Convert.ToInt32(a) == Convert.ToInt32(b))
-                return '0';
-            else
-                return '1';
-        }
-
-        /*Przesuwa rejestr o jedną jednostkę w lewo*/
-        private string shift(string x, char val)
-        {
-            return x.Remove(0, 1) + val.ToString();
-        }
-    
         /*Przeliczanie rejestru*/
-        private string registry_calculate(string[] values, string registry_value)
+        private string registry_calculate(string[] values, string registry_value, int amount)
         {
-            for (int i = 0; i < registry_value.Length; i++)
+            int temp, temp2;
+            string wynik = "";
+            for (int i = 0; i < amount; i++)
             {
-                char temp = registry_value[registry_value.Length - 1];
+                temp = Convert.ToInt32(registry_value[0]) - '0';
                 foreach (string val_int in values)
                 {
-                    temp = xor(temp, registry_value[int.Parse(val_int)]);
+                    if (int.Parse(val_int) != 0)
+                    {
+                        temp2 = Convert.ToInt32(registry_value[int.Parse(val_int)]) - '0';
+                        temp = temp ^ temp2;
+                    }
                 }
-                registry_value = shift(registry_value, temp);
+                registry_value = temp.ToString() + registry_value.Remove(registry_value.Length - 1);
+                wynik += temp.ToString();
             }
-            return registry_value;
+
+            return wynik;
         }
 
         /*Główny proces BACKGROUNDWORKER*/
@@ -143,17 +158,24 @@ namespace LFSR
         {
             try
             {
-                string[] values = GetText();
-                int registry_lenght = int.Parse(values[0]) * 8;
+                string[] values = GetValues();
+                int registry_lenght = int.Parse(values[0]) + 1;
                 string registry_value = "";
+                int amount = GetAmount();
                 TB_input.Dispatcher.Invoke(new Action(() =>
                 {
                     registry_value = TB_input.Text;
                 }));
 
+                LBL_output.Dispatcher.Invoke(new Action(() =>
+                {
+
+                        LBL_output.Content = "Output. Amount = " + amount;
+                }));
+
                 TB_output.Dispatcher.Invoke(new Action(() =>
                 {
-                    TB_output.Text = registry_calculate(values, registry_value);
+                    TB_output.Text = registry_calculate(values, registry_value, amount);
                     TB_output.IsEnabled = true;
                 }));
 
