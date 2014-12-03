@@ -25,11 +25,14 @@ namespace LFSR
         private static BackgroundWorker _bw;
         private delegate void GetTextDelegate(string txt);
         private int registry_lenght;
+        private string toWrite;
+        private int i;
         public MainWindow()
         {
             InitializeComponent();
             CB_options.ItemsSource = File.ReadAllLines("generatory.txt");
             IMG_help.ToolTip = "1. Select option from dropdown list\n2. Enter number of repeats\n3. Enter your registry data (or use generated one)\n4. Press button Start";
+            i = 0;
         }
 
         /*Obsługa zdarzeń w oknie
@@ -55,7 +58,7 @@ namespace LFSR
             Regex _regexp_registry = new Regex("^[0-1]+$");
             if (_regexp_registry.IsMatch(entered) || entered == "")
             {
-                LBL_input.Content = "Input. You have entered " + entered.Length + " bytes";
+                LBL_input.Content = "Input. You have entered " + entered.Length + " bits";
                 if (registry_lenght == entered.Length)
                 {
                     BT_do.IsEnabled = true;
@@ -175,10 +178,12 @@ namespace LFSR
 
                 TB_output.Dispatcher.Invoke(new Action(() =>
                 {
-                    TB_output.Text = registry_calculate(values, registry_value, amount);
+                    TB_output.Text = toWrite = registry_calculate(values, registry_value, amount);
                     TB_output.IsEnabled = true;
                 }));
-
+               
+                File.WriteAllText("LFSR_output" + i +".txt", toWrite);
+                i++;
             }
             catch (Exception x)
             {

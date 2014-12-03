@@ -15,7 +15,7 @@
         <ComboBox x:Name="CB_options" HorizontalAlignment="Left" Height="35" Margin="10,45,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="CB_options_SelectionChanged" ToolTip="Select options from the list below"/>
 
         <Label x:Name="LBL_amount" Content="Amount" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="200" Height="30" Foreground="White"/>
-        <TextBox x:Name="TB_amount" Margin="10,120,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="300" Height="35" TextChanged="TB_amount_TextChanged" ToolTip="Enter number of repeats" HorizontalAlignment="Left" />
+        <TextBox x:Name="TB_amount" Margin="10,120,0,0" TextWrapping="Wrap" Text="100000" VerticalAlignment="Top" Width="300" Height="35" TextChanged="TB_amount_TextChanged" ToolTip="Enter number of repeats" HorizontalAlignment="Left" />
 
         <Label x:Name="LBL_input" Content="Input" HorizontalAlignment="Left"  Margin="10,160,0,0" VerticalAlignment="Top" Height="30" Width="200" Foreground="White"/>
         <TextBox x:Name="TB_input" HorizontalAlignment="Left"  Margin="10,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="84" Width="300" TextChanged="TB_input_TextChanged" ToolTip="Enter your registry data"/>
