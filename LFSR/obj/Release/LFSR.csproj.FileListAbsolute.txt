@@ -1,0 +1,12 @@
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\bin\Release\LFSR.exe.config
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\bin\Release\LFSR.exe
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\bin\Release\LFSR.pdb
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\MainWindow.baml
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\MainWindow.g.cs
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\App.g.cs
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR_MarkupCompile.cache
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.g.resources
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.Properties.Resources.resources
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.csproj.GenerateResource.Cache
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.exe
+C:\Users\Laionik\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.pdb
