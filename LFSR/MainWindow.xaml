@@ -1,8 +1,8 @@
 ﻿<Window x:Name="MainWindow1" x:Class="LFSR.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="LFSR" Height="519.557" Width="335" ResizeMode="NoResize">
-    <Grid ToolTip="1. Select option from dropdown list 2. Enter your registry data (or use generated one) 3. Press button Start" Height="491" VerticalAlignment="Top">
+        Title="LFSR" Height="498.645" Width="670" ResizeMode="NoResize">
+    <Grid ToolTip="1. Select option from dropdown list 2. Enter your registry data (or use generated one) 3. Press button Start" Margin="0,0,-26,-18">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FF001B4B" Offset="0"/>
@@ -15,16 +15,49 @@
         <ComboBox x:Name="CB_options" HorizontalAlignment="Left" Height="35" Margin="10,45,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="CB_options_SelectionChanged" ToolTip="Select options from the list below"/>
 
         <Label x:Name="LBL_amount" Content="Amount" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="200" Height="30" Foreground="White"/>
-        <TextBox x:Name="TB_amount" Margin="10,120,0,0" TextWrapping="Wrap" Text="100000" VerticalAlignment="Top" Width="300" Height="35" TextChanged="TB_amount_TextChanged" ToolTip="Enter number of repeats" HorizontalAlignment="Left" />
+        <TextBox x:Name="TB_amount" Margin="10,120,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="300" Height="35" TextChanged="TB_amount_TextChanged" ToolTip="Enter number of repeats" HorizontalAlignment="Left" />
 
         <Label x:Name="LBL_input" Content="Input" HorizontalAlignment="Left"  Margin="10,160,0,0" VerticalAlignment="Top" Height="30" Width="200" Foreground="White"/>
         <TextBox x:Name="TB_input" HorizontalAlignment="Left"  Margin="10,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="84" Width="300" TextChanged="TB_input_TextChanged" ToolTip="Enter your registry data"/>
 
 
         <Label x:Name="LBL_output" Content="Output" HorizontalAlignment="Left"  Margin="10,297,0,0" VerticalAlignment="Top" Height="30" Width="200" Foreground="White"/>
-        <TextBox x:Name="TB_output" HorizontalAlignment="Left" Margin="10,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="83"  Width="300" IsReadOnly="True" ToolTip="It's your result"/>
+        <TextBox x:Name="TB_generate_output" HorizontalAlignment="Left" Margin="10,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="83"  Width="300" IsReadOnly="True" ToolTip="It's your result"/>
 
-        <Button x:Name="BT_do" Content="Start" Click="BT_do_Click" HorizontalAlignment="Left"  Margin="10,441,0,0" Width="300" IsEnabled="False" ToolTip="Click after selecting option" Height="40" VerticalAlignment="Top">
+        <Button x:Name="BT_generate" Content="Generate" Click="BT_generate_Click" HorizontalAlignment="Left"  Margin="10,420,0,0" Width="300" IsEnabled="False" ToolTip="Click after selecting option" Height="40" VerticalAlignment="Top">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
+                    <GradientStop Color="#FF363636" Offset="0"/>
+                    <GradientStop Color="#FF363636" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Image x:Name="IMG_help2" HorizontalAlignment="Left" Height="30" Margin="601,10,0,0" VerticalAlignment="Top" Width="40" Source="help-icon.png" RenderTransformOrigin="7.258,0.511"/>
+
+        <Label x:Name="LBL_select_file" Content="Select file" HorizontalAlignment="Left" Margin="341,15,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
+        <TextBox x:Name="TB_select_file" HorizontalAlignment="Left" Margin="341,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30"  Width="200" ToolTip="Select file" IsReadOnly="True" TextChanged="TB_select_file_TextChanged"/>
+        <Button x:Name="BT_select_file" Content="Select file" HorizontalAlignment="Left" Height="30" Margin="546,50,0,0" VerticalAlignment="Top" Width="95" Click="BT_select_file_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
+                    <GradientStop Color="#FF363636" Offset="0"/>
+                    <GradientStop Color="#FF363636" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+
+        <RadioButton x:Name="RB_encrypt" Content="Encrypt" HorizontalAlignment="Left" Margin="341,94,0,0" VerticalAlignment="Top"  Height="30"  Width="100" Foreground="White"/>
+        <RadioButton x:Name="RB_decrypt" Content="Decrypt" HorizontalAlignment="Left" Margin="520,99,0,0" VerticalAlignment="Top"  Height="30"  Width="100" Foreground="White"/>
+
+        <Label x:Name="LBL_key" Content="Key" HorizontalAlignment="Left" Margin="341,120,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
+        <TextBox x:Name="TB_key" HorizontalAlignment="Left"  Margin="341,150,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="" ToolTip="Result of encryption/decryption" Height="40" Width="300" IsReadOnly="False" TextChanged="TB_key_TextChanged"/>
+
+
+        <Label x:Name="LBL_output_encryptor" Content="Output" HorizontalAlignment="Left" Margin="341,192,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
+        <TextBox x:Name="TB_encrypt_output" HorizontalAlignment="Left"  Margin="341,227,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="" ToolTip="Result of encryption/decryption" Height="100" Width="300" IsReadOnly="False"/>
+        <Button x:Name="BT_encrypt" Content="Start" Click="BT_encrypt_Click" HorizontalAlignment="Left"  Margin="341,332,0,0" Width="300" IsEnabled="False" ToolTip="Click to start encryption/decryption" Height="40" VerticalAlignment="Top">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
                     <GradientStop Color="#FF363636" Offset="0"/>

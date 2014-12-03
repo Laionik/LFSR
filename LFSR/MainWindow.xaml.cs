@@ -25,14 +25,17 @@ namespace LFSR
         private static BackgroundWorker _bw;
         private delegate void GetTextDelegate(string txt);
         private int registry_lenght;
-        private string toWrite;
-        private int i;
+        private string text, path;
+        private int i_generate, i_encrypt;
         public MainWindow()
         {
             InitializeComponent();
             CB_options.ItemsSource = File.ReadAllLines("generatory.txt");
-            IMG_help.ToolTip = "1. Select option from dropdown list\n2. Enter number of repeats\n3. Enter your registry data (or use generated one)\n4. Press button Start";
-            i = 0;
+            IMG_help.ToolTip = "1. Select option from dropdown list\n2. Enter number of repeats\n3. Enter your registry data (or use generated one)\n4. Press \"Generate\"";
+            IMG_help2.ToolTip = "1. Select file\n2. Select option\n3. Enter your key\n4. Press \"Start\"";
+
+            i_generate = 0;
+            i_encrypt = 0;
         }
 
         /*Obsługa zdarzeń w oknie
@@ -40,20 +43,19 @@ namespace LFSR
          */
         private void CB_options_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BT_do.IsEnabled = true;
+            BT_generate.IsEnabled = true;
             TB_input.IsEnabled = true;
             string[] values = GetValues();
             registry_lenght = int.Parse(values[0]) + 1;
-            TB_output.Text = "";
+            TB_generate_output.Text = "";
             input_example(registry_lenght);
         }
-
 
         /*obsługa zmiany tekstu w input*/
         private void TB_input_TextChanged(object sender, TextChangedEventArgs e)
         {
-            BT_do.IsEnabled = false;
-            TB_output.Text = "";
+            BT_generate.IsEnabled = false;
+            TB_generate_output.Text = "";
             string entered = TB_input.Text;
             Regex _regexp_registry = new Regex("^[0-1]+$");
             if (_regexp_registry.IsMatch(entered) || entered == "")
@@ -61,7 +63,7 @@ namespace LFSR
                 LBL_input.Content = "Input. You have entered " + entered.Length + " bits";
                 if (registry_lenght == entered.Length)
                 {
-                    BT_do.IsEnabled = true;
+                    BT_generate.IsEnabled = true;
                 }
             }
             else
@@ -77,22 +79,23 @@ namespace LFSR
             string entered = TB_amount.Text;
             if (!_regexp_amount.IsMatch(entered))
             {
-                TB_amount.Text = entered.Remove(entered.Length - 1);
+                if(entered.Length > 0)
+                    TB_amount.Text = entered.Remove(entered.Length - 1);
                 MessageBox.Show("You can entering only numerics here");
             }
         }
 
         /*wciśnięcie klawisza */
-        private void BT_do_Click(object sender, RoutedEventArgs e)
+        private void BT_generate_Click(object sender, RoutedEventArgs e)
         {
-            BT_do.IsEnabled = false;
+            BT_generate.IsEnabled = false;
 
             _bw = new BackgroundWorker
             {
                 WorkerReportsProgress = false,
                 WorkerSupportsCancellation = false
             };
-            _bw.DoWork += bw_DoWork;
+            _bw.DoWork += bw_Generate;
 
             _bw.RunWorkerAsync();
         }
@@ -157,7 +160,7 @@ namespace LFSR
         }
 
         /*Główny proces BACKGROUNDWORKER*/
-        public void bw_DoWork(object sender, DoWorkEventArgs e)
+        public void bw_Generate(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -165,29 +168,165 @@ namespace LFSR
                 int registry_lenght = int.Parse(values[0]) + 1;
                 string registry_value = "";
                 int amount = GetAmount();
-                TB_input.Dispatcher.Invoke(new Action(() =>
+
+                this.Dispatcher.Invoke(new Action(() =>
                 {
                     registry_value = TB_input.Text;
+                    LBL_output.Content = "Output. Amount = " + amount;
+                    TB_generate_output.Text = TB_key.Text = text = registry_calculate(values, registry_value, amount);
+                    TB_generate_output.IsEnabled = true;
                 }));
 
-                LBL_output.Dispatcher.Invoke(new Action(() =>
-                {
-
-                        LBL_output.Content = "Output. Amount = " + amount;
-                }));
-
-                TB_output.Dispatcher.Invoke(new Action(() =>
-                {
-                    TB_output.Text = toWrite = registry_calculate(values, registry_value, amount);
-                    TB_output.IsEnabled = true;
-                }));
-               
-                File.WriteAllText("LFSR_output" + i +".txt", toWrite);
-                i++;
+                File.WriteAllText("LFSR_generated" + i_generate + ".txt", text);
+                i_generate++;
             }
             catch (Exception x)
             {
                 MessageBox.Show("Something went wrong\n" + x.Message);
+            }
+        }
+
+        /* SZYFRATOR */
+        private void BT_select_file_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text Files (*.txt)|*.txt";
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                // Open document 
+                path = dlg.FileName;
+                TB_select_file.Text = path;
+            }
+        }
+
+        string getBits(string txt)
+        {
+            string temp = "";
+            byte[] bytes = Encoding.ASCII.GetBytes(txt);
+            int i = 0;
+            foreach (byte b in bytes)
+            {
+                if (Convert.ToString(b, 2).Length != 8)
+                {
+                    for(int x = Convert.ToString(b, 2).Length; x < 8; x++)
+                    {
+                        temp += '0';
+                    }
+                }
+                temp += Convert.ToString(b, 2);
+                
+
+                i++;
+            }
+            return temp;
+        }
+
+        private string encrypt(string key)
+        {
+            string txt = File.ReadAllText(path);
+            int key_length = key.Length;
+            int i = 0;
+            string toEncrypt = getBits(txt);
+            string output = "";
+            foreach (char ch in toEncrypt)
+            {
+                if (i == key_length)
+                    i = 0;
+                output += (Convert.ToInt32(ch) - '0') ^ (Convert.ToInt32(key[i]) - '0');
+                i++;
+            }
+
+            File.WriteAllText("LFSR_encrypt" + i_encrypt + ".txt", output);
+            return output;
+        }
+
+
+        public Byte[] GetBytesFromBinaryString(String binary)
+        {
+            var list = new List<Byte>();
+
+            for (int i = 0; i < binary.Length; i += 8)
+            {
+                String t = binary.Substring(i, 8);
+
+                list.Add(Convert.ToByte(t, 2));
+            }
+            return list.ToArray();
+        }
+
+        private string decrypt(string key)
+        {
+            string txt = File.ReadAllText(path);
+            string temp = "";
+            int i = 0;
+            int key_length = key.Length;
+
+            Byte[] data = GetBytesFromBinaryString(txt);
+            string output = Encoding.ASCII.GetString(data);
+
+            foreach (char ch in output)
+            {
+                if (i == key_length)
+                    i = 0;
+                temp += (Convert.ToInt32(ch) - '0') ^ (Convert.ToInt32(key[i]) - '0');
+                i++;
+            }
+            File.WriteAllText("LFSR_decrypt" + i_encrypt + ".txt", temp);
+            return temp;
+        }
+
+        public void bw_Encrypt(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                string key;
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    key = TB_key.Text;
+                    if (RB_encrypt.IsChecked == true)
+                        TB_encrypt_output.Text = encrypt(key);
+                    else
+                        TB_encrypt_output.Text = decrypt(key);
+                    i_encrypt++;
+                }));
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show("Something went wrong\n" + x.Message);
+            }
+        }
+
+        private void BT_encrypt_Click(object sender, RoutedEventArgs e)
+        {
+            _bw = new BackgroundWorker
+            {
+                WorkerReportsProgress = false,
+                WorkerSupportsCancellation = false
+            };
+            _bw.DoWork += bw_Encrypt;
+
+            _bw.RunWorkerAsync();
+        }
+
+        private void TB_select_file_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TB_key.Text != null)
+            {
+                BT_encrypt.IsEnabled = true;
+            }
+        }
+
+        private void TB_key_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TB_select_file.Text != null)
+            {
+                BT_encrypt.IsEnabled = true;
             }
         }
     }

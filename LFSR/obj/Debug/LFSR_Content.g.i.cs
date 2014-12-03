@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lfsr_output.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backup_lazy.txt")]
 
 

@@ -1,0 +1,16 @@
+﻿  TB_input.Dispatcher.Invoke(new Action(() =>
+                {
+                    registry_value = TB_input.Text;
+                }));
+
+                LBL_output.Dispatcher.Invoke(new Action(() =>
+                {
+
+                    LBL_output.Content = "Output. Amount = " + amount;
+                }));
+
+                TB_output.Dispatcher.Invoke(new Action(() =>
+                {
+                    TB_output.Text = toWrite = registry_calculate(values, registry_value, amount);
+                    TB_output.IsEnabled = true;
+                }));
