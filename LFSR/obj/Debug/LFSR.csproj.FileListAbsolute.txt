@@ -37,3 +37,16 @@ C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\obj\Debug\LFSR_Mark
 C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\obj\Debug\LFSR.g.resources
 C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\obj\Debug\LFSR.Properties.Resources.resources
 C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\obj\Debug\LFSR.csproj.GenerateResource.Cache
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\bin\Debug\LFSR.exe.config
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR.exe
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR.pdb
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\bin\Debug\LFSR.exe
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\bin\Debug\LFSR.pdb
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR.csprojResolveAssemblyReference.cache
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\MainWindow.baml
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\MainWindow.g.cs
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\App.g.cs
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR_MarkupCompile.cache
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR.g.resources
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR.Properties.Resources.resources
+C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Debug\LFSR.csproj.GenerateResource.Cache

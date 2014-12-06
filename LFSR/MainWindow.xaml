@@ -15,7 +15,7 @@
                             <GradientStop Color="#FF311CFD" Offset="1"/>
                         </LinearGradientBrush>
                     </Grid.Background>
-                    <Image x:Name="IMG_help" HorizontalAlignment="Left" Height="30" Margin="270,5,0,0" VerticalAlignment="Top" Width="40" Source="help-icon.png"/>
+                    <Image x:Name="IMG_generator" HorizontalAlignment="Left" Height="30" Margin="270,5,0,0" VerticalAlignment="Top" Width="40" Source="help-icon.png"/>
 
                     <Label x:Name="LBL_select_option" Content="Select option" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="200" Foreground="White"/>
                     <ComboBox x:Name="CB_options" HorizontalAlignment="Left" Height="34" Margin="10,35,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="CB_options_SelectionChanged" ToolTip="Select options from the list below"/>
@@ -52,7 +52,7 @@
                         </LinearGradientBrush>
                     </Grid.Background>
 
-                    <Image x:Name="IMG_help2" HorizontalAlignment="Left" Height="30" Margin="270,10,0,0" VerticalAlignment="Top" Width="40" Source="help-icon.png" RenderTransformOrigin="7.258,0.511"/>
+                    <Image x:Name="IMG_cipher" HorizontalAlignment="Left" Height="30" Margin="270,10,0,0" VerticalAlignment="Top" Width="40" Source="help-icon.png" RenderTransformOrigin="7.258,0.511"/>
 
                     <Label x:Name="LBL_select_file" Content="Select file" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
                     <TextBox x:Name="TB_select_file" HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30"  Width="200" ToolTip="Select file" IsReadOnly="True" TextChanged="TB_select_file_TextChanged"/>
@@ -93,10 +93,43 @@
                             </LinearGradientBrush>
                         </Button.Background>
                     </Button>
-                   
+
 
                 </Grid>
 
+            </TabItem>
+
+            <TabItem Header="Tests">
+                <Grid Height="500" VerticalAlignment="Top">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0F0763" Offset="0"/>
+                            <GradientStop Color="#FF311CFD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Label x:Name="LBL_select_test" Content="Select test" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
+                    <Image x:Name="IMG_test" HorizontalAlignment="Left" Height="30" Margin="270,10,0,0" VerticalAlignment="Top" Width="40" Source="help-icon.png" RenderTransformOrigin="7.258,0.511"/>
+
+                    <RadioButton x:Name="RB_individual_bits" Content="Individual bits" HorizontalAlignment="Left" Margin="179,45,0,0" VerticalAlignment="Top"  Height="30"  Width="100" Foreground="White"/>
+                    <RadioButton x:Name="RB_pair_bits" Content="Pair bits" HorizontalAlignment="Left" Margin="179,75,0,0" VerticalAlignment="Top"  Height="30"  Width="100" Foreground="White"/>
+                    <RadioButton x:Name="RB_poker" Content="Poker" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top"  Height="30"  Width="100" Foreground="White"/>
+                    <RadioButton x:Name="RB_long_series" Content="Long series" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"  Height="30"  Width="100" Foreground="White" IsChecked="True"/>
+                    <Label x:Name="LBL_key_test" Content="Key (30,6,4,1,0)" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
+                    <TextBox x:Name="TB_key_test" HorizontalAlignment="Left"  Margin="10,127,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="" ToolTip="Key" Height="100" Width="300" IsReadOnly="False"/>
+
+                    <Label x:Name="LBL_test_output" Content="Output" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top"  Height="30" Width="200" Foreground="White"/>
+                    <TextBox x:Name="TB_test_output" HorizontalAlignment="Left"  Margin="10,266,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="" ToolTip="Result of testing" Height="40" Width="300" IsReadOnly="False"/>
+                    <Button x:Name="BT_test" Content="Test" Click="BT_test_Click" HorizontalAlignment="Left"  Margin="10,312,0,0" Width="300" ToolTip="Click to start testingn" Height="40" VerticalAlignment="Top">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
+                                <GradientStop Color="#FF363636" Offset="0"/>
+                                <GradientStop Color="#FF363636" Offset="1"/>
+                                <GradientStop Color="White" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+
+                </Grid>
             </TabItem>
         </TabControl>
 

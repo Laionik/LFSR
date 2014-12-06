@@ -16,14 +16,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace LFSR
 {
 
 
     public partial class MainWindow : Window
     {
-        private static BackgroundWorker _bw;
-        private delegate void GetTextDelegate(string txt);
         private int registry_lenght;
         private string text, path;
         private Encoding encoding;
@@ -31,8 +30,9 @@ namespace LFSR
         {
             InitializeComponent();
             CB_options.ItemsSource = File.ReadAllLines("generatory.txt");
-            IMG_help.ToolTip = "1. Select option from dropdown list\n2. Enter number of repeats\n3. Enter your registry data (or use generated one)\n4. Press \"Generate\"";
-            IMG_help2.ToolTip = "1. Select file\n2. Select option\n3. Enter your key or generate by pressing \"Generate key\"\n4. Press \"Start\"";
+            IMG_generator.ToolTip = "1. Select option from dropdown list\n2. Enter number of repeats\n3. Enter your registry data (or use generated one)\n4. Press \"Generate\"";
+            IMG_cipher.ToolTip = "1. Select file\n2. Select option\n3. Enter your key or generate by pressing \"Generate key\"\n4. Press \"Start\"";
+            IMG_test.ToolTip = "1. Select test\n2. Enter your key or generate by pressing \"Generate key\"\n3. Press \"Test\"";
             encoding = Encoding.GetEncoding("windows-1250");
             RB_encrypt.IsChecked = true;
         }
@@ -43,9 +43,10 @@ namespace LFSR
         public string[] GetValues()
         {
             string from_cb = "";
-            CB_options.Dispatcher.Invoke(new Action(() =>
+            this.Dispatcher.Invoke(new Action(() =>
             {
                 from_cb = (string)CB_options.SelectedItem;
+
             }));
             string[] values = from_cb.Split(',');
             return values;
@@ -96,7 +97,7 @@ namespace LFSR
                     {
                         temp2 = Convert.ToInt32(registry_value[int.Parse(val_int)]) - '0';
                         temp = temp ^ temp2;
-                    }
+                    }                   
                 }
                 registry_value = temp.ToString() + registry_value.Remove(registry_value.Length - 1);
                 result += temp.ToString();
@@ -105,8 +106,8 @@ namespace LFSR
             return result;
         }
 
-        /*Zadanie BackgroundWorera*/
-        public void bw_Generate(object sender, DoWorkEventArgs e)
+        /*Main Generate*/
+        public void Generate()
         {
             try
             {
@@ -177,16 +178,8 @@ namespace LFSR
 
         private void BT_generate_Click(object sender, RoutedEventArgs e)
         {
-            BT_generate.IsEnabled = false;
-
-            _bw = new BackgroundWorker
-            {
-                WorkerReportsProgress = false,
-                WorkerSupportsCancellation = false
-            };
-            _bw.DoWork += bw_Generate;
-
-            _bw.RunWorkerAsync();
+            Thread Tgenerate = new Thread(Generate);
+            Tgenerate.Start();
         }
 
         /* SZYFRATOR */
@@ -262,8 +255,8 @@ namespace LFSR
             return output;
         }
 
-        /*Zadanie BackgroundWorera*/
-        public void bw_Encrypt(object sender, DoWorkEventArgs e)
+        /*Main Generator*/
+        public void Cipher()
         {
             try
             {
@@ -307,14 +300,8 @@ namespace LFSR
 
         private void BT_cipher_Click(object sender, RoutedEventArgs e)
         {
-            _bw = new BackgroundWorker
-            {
-                WorkerReportsProgress = false,
-                WorkerSupportsCancellation = false
-            };
-            _bw.DoWork += bw_Encrypt;
-
-            _bw.RunWorkerAsync();
+            Thread Tgenerate = new Thread(Cipher);
+            Tgenerate.Start();
         }
 
         private void TB_select_file_TextChanged(object sender, TextChangedEventArgs e)
@@ -343,5 +330,155 @@ namespace LFSR
             TB_key.Text = result;
             File.WriteAllText("XOR_key.txt", result);
         }
+
+
+        /*TESTS*/
+        /*Obsługa kontrolek*/
+        private void BT_test_Click(object sender, RoutedEventArgs e)
+        {
+            Thread Ttest = new Thread(Testing);
+            Ttest.Start();
+        }
+
+        /*Metody testów*/
+        /*Test pojedynczych bitów*/
+        private void Individual_bits(string key)
+        {
+            int n0 = 0, n1 = 0; //liczba zer w ciągu, liczba jedynek w ciągu
+            foreach (char c in key)
+            {
+                if (c == '0')
+                    n0++;
+            }
+            n1 = key.Length - n0;
+            int test = n0 - n1;
+            double result = Math.Pow(test, 2) / key.Length;
+
+            if (test < 150 && test > -150)
+                TB_test_output.Text = "Individual bits test passed\nStatistic S = " + result;
+            else
+                TB_test_output.Text = "Individual bits test failed\nStatistic S = " + result;
+        }
+        /*Test pary bitów*/
+        private void Pair_bits(string key)
+        {
+            int n00 = 0, n01 = 0, n10 = 0, n11 = 0; //liczba 00 wciągu, liczba 01 wciągu, liczba 10 wciągu, liczba 11 wciągu
+            string temp = "";
+            for (int i = 0; i < key.Length - 1; i++)
+            {
+                temp = key[i].ToString() + key[i + 1].ToString();
+                if (temp == "00")
+                    n00++;
+                else if (temp == "01")
+                    n01++;
+                else if (temp == "10")
+                    n10++;
+                else
+                    n11++;
+            }
+            int test1 = n00 - n01, test2 = n00 - n10, test3 = n00 - n11;
+            if ((test1 < 150 && test1 > -150) && (test2 < 150 && test2 > -150) && (test3 < 150 && test3 > -150))
+                TB_test_output.Text = "Pair bits test passed\n";
+            else
+
+                TB_test_output.Text = "Pair bits test failed\n";
+        }
+        /*Test pokerowy*/
+        private void Poker(string key)
+        {
+            Dictionary<string, int> d_segments = new Dictionary<string, int>();
+            d_segments.Add("0000", 0);
+            d_segments.Add("0001", 0);
+            d_segments.Add("0011", 0);
+            d_segments.Add("0101", 0);
+            d_segments.Add("1001", 0);
+            d_segments.Add("0010", 0);
+            d_segments.Add("0110", 0);
+            d_segments.Add("1010", 0);
+            d_segments.Add("0100", 0);
+            d_segments.Add("1100", 0);
+            d_segments.Add("0111", 0);
+            d_segments.Add("1101", 0);
+            d_segments.Add("1011", 0);
+            d_segments.Add("1110", 0);
+            d_segments.Add("1000", 0);
+            d_segments.Add("1111", 0);
+            string temp;
+            double x = 0, result = 0;
+            for (int i = 0; i < key.Length; i += 4)
+            {
+                temp = key[i].ToString() + key[i + 1].ToString() + key[i + 2].ToString() + key[i + 3].ToString();
+                d_segments[temp] = d_segments[temp] + 1;
+            }
+            Dictionary<string, int>.ValueCollection values = d_segments.Values;
+            foreach (int val in values)
+            {
+                x += Math.Pow(val, 2);
+            }
+            result = 0.0032 * x - 5000;
+            if (Math.Round(result, 2) > 2.16 && Math.Round(result, 2) < 46.17)
+                TB_test_output.Text = "Poker test passed\nResult = " + Math.Round(result, 2).ToString();
+            else
+                TB_test_output.Text = "Poker test failed\nResult = " + Math.Round(result, 2).ToString();
+
+        }
+        /*Test długiej serii*/
+        private void Long_series(string key)
+        {
+            int serie = 0;
+            char compare = key[0];
+            foreach (char c in key)
+            {
+                if (compare == c)
+                    serie++;
+                else
+                {
+                    compare = c;
+                    serie = 0;
+                }
+                if (serie >= 26)
+                    break;
+            }
+            if (serie >= 26)
+                TB_test_output.Text = "Long series test failed";
+            else
+                TB_test_output.Text = "Long series test passed";
+
+
+        }
+        /*Generowanie klucza do testów*/
+        private string key_generate()
+        {
+            string cutOff = "30,6,4,1,0";
+            string[] values = cutOff.Split(',');
+            int amount = 20000;
+            string registry_value = Registry_Generate(int.Parse(values[0]) + 1);
+            return registry_calculate(values, registry_value, amount); ;
+        }
+        private void Testing()
+        {
+            String key = key_generate();
+            try
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TB_key_test.Text = key;
+                    if (RB_individual_bits.IsChecked == true)
+                        Individual_bits(key);
+                    else if (RB_pair_bits.IsChecked == true)
+                        Pair_bits(key);
+                    else if (RB_poker.IsChecked == true)
+                        Poker(key);
+                    else
+                        Long_series(key);
+
+                }));
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show("Something went wrong\n" + x.Message);
+            }
+        }
+
     }
 }
