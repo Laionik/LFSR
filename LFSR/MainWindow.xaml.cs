@@ -362,26 +362,32 @@ namespace LFSR
         /*Test pary bitów*/
         private void Pair_bits(string key)
         {
-            int n00 = 0, n01 = 0, n10 = 0, n11 = 0; //liczba 00 wciągu, liczba 01 wciągu, liczba 10 wciągu, liczba 11 wciągu
+            int n0 = 0, n00 = 0, n01 = 0, n10 = 0, n11 = 0; //liczba 00 wciągu, liczba 01 wciągu, liczba 10 wciągu, liczba 11 wciągu
             string temp = "";
             for (int i = 0; i < key.Length - 1; i++)
             {
                 temp = key[i].ToString() + key[i + 1].ToString();
                 if (temp == "00")
+                {
                     n00++;
+                    n0++;
+                }
                 else if (temp == "01")
+                {
+                    n0++;
                     n01++;
+                }
                 else if (temp == "10")
                     n10++;
                 else
                     n11++;
             }
+            double result = (double)(4 / key.Length - 1) * (Math.Pow(n00, 2) + Math.Pow(n01, 2) + Math.Pow(n10, 2) + Math.Pow(n11, 2)) - (double)(2 / key.Length) * (Math.Pow(n0, 2) + Math.Pow((key.Length - n0), 2)) + 1;
             int test1 = n00 - n01, test2 = n00 - n10, test3 = n00 - n11;
             if ((test1 < 150 && test1 > -150) && (test2 < 150 && test2 > -150) && (test3 < 150 && test3 > -150))
-                TB_test_output.Text = "Pair bits test passed\n";
+                TB_test_output.Text = "Pair bits test passed\nS = " + result.ToString();
             else
-
-                TB_test_output.Text = "Pair bits test failed\n";
+                TB_test_output.Text = "Pair bits test failed\nS = " + result.ToString();
         }
         /*Test pokerowy*/
         private void Poker(string key)
