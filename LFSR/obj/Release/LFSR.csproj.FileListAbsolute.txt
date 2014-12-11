@@ -36,3 +36,16 @@ C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Release\LFSR_MarkupCompile.cache
 C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Release\LFSR.g.resources
 C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Release\LFSR.Properties.Resources.resources
 C:\Users\Lukasz\Documents\GitHub\LFSR\LFSR\obj\Release\LFSR.csproj.GenerateResource.Cache
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\bin\Release\LFSR.exe.config
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.exe
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.pdb
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\bin\Release\LFSR.exe
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\bin\Release\LFSR.pdb
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.csprojResolveAssemblyReference.cache
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\MainWindow.baml
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\MainWindow.g.cs
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\App.g.cs
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR_MarkupCompile.cache
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.g.resources
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.Properties.Resources.resources
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Release\LFSR.csproj.GenerateResource.Cache

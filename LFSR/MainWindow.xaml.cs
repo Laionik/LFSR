@@ -97,7 +97,7 @@ namespace LFSR
                     {
                         temp2 = Convert.ToInt32(registry_value[int.Parse(val_int)]) - '0';
                         temp = temp ^ temp2;
-                    }                   
+                    }
                 }
                 registry_value = temp.ToString() + registry_value.Remove(registry_value.Length - 1);
                 result += temp.ToString();
@@ -457,12 +457,11 @@ namespace LFSR
         }
         private void Testing()
         {
-            String key = key_generate();
             try
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    TB_key_test.Text = key;
+                    String key = TB_key_test.Text;
                     if (RB_individual_bits.IsChecked == true)
                         Individual_bits(key);
                     else if (RB_pair_bits.IsChecked == true)
@@ -471,7 +470,6 @@ namespace LFSR
                         Poker(key);
                     else
                         Long_series(key);
-
                 }));
             }
             catch (Exception x)

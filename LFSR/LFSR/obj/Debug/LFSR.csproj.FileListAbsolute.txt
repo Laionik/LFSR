@@ -11,3 +11,6 @@ C:\Users\ls248950\documents\visual studio 2013\Projects\LFSR\LFSR\obj\Debug\LFSR
 C:\Users\ls248950\documents\visual studio 2013\Projects\LFSR\LFSR\obj\Debug\LFSR.exe
 C:\Users\ls248950\documents\visual studio 2013\Projects\LFSR\LFSR\obj\Debug\LFSR.pdb
 C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\obj\Debug\LFSR.csprojResolveAssemblyReference.cache
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\LFSR\bin\Debug\LFSR.exe.config
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\LFSR\obj\Debug\LFSR.exe
+C:\Users\ls248950\Documents\Visual Studio 2013\Projects\LFSR\LFSR\LFSR\obj\Debug\LFSR.pdb
