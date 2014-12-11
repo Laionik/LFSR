@@ -382,12 +382,12 @@ namespace LFSR
                 else
                     n11++;
             }
-            double result = (double)(4 / key.Length - 1) * (Math.Pow(n00, 2) + Math.Pow(n01, 2) + Math.Pow(n10, 2) + Math.Pow(n11, 2)) - (double)(2 / key.Length) * (Math.Pow(n0, 2) + Math.Pow((key.Length - n0), 2)) + 1;
+            double result = (4.0 / (key.Length- 1.0)) * (Math.Pow(n00, 2) + Math.Pow(n01, 2) + Math.Pow(n10, 2) + Math.Pow(n11, 2)) - (double)(2.0 / key.Length) * (Math.Pow(n0, 2) + Math.Pow((key.Length - n0), 2)) + 1;
             int test1 = n00 - n01, test2 = n00 - n10, test3 = n00 - n11;
             if ((test1 < 150 && test1 > -150) && (test2 < 150 && test2 > -150) && (test3 < 150 && test3 > -150))
-                TB_test_output.Text = "Pair bits test passed\nS = " + result.ToString();
+                TB_test_output.Text = "Pair bits test passed\nS = " + Math.Round(result, 2).ToString();
             else
-                TB_test_output.Text = "Pair bits test failed\nS = " + result.ToString();
+                TB_test_output.Text = "Pair bits test failed\nS = " + Math.Round(result, 2).ToString();
         }
         /*Test pokerowy*/
         private void Poker(string key)
